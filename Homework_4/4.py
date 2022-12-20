@@ -10,11 +10,27 @@
 # 60 -> 10 40 10
 
 
-s = int(input('Введите число журавликов: '))
 
-katia = int((s/3)*2)
-peter = int((katia/2)/2)
-sereja = int(peter)
+#вариант 1
+# s = int(input('Введите число журавликов: '))
 
-print(peter, katia, sereja)
+# katia = int((s/3)*2)
+# peter = int((katia/2)/2)
+# sereja = int(peter)
 
+# print(peter, katia, sereja)
+
+
+
+#вариант преподавателя
+while True:
+    try:
+        s = int(input('Введите количество журавликов: '))
+        if s % 6 == 0:
+            x = s // 6
+            print(f'Петя и Сережа сделали по {x}, а Катя - {x * 4} журавликов')
+            break
+        else:
+            print('Это количество нельзя распределить в соответствии с условиями задачи! Попробуйте еще раз!')
+    except:
+        print('Некорректный ввод. Попробуйте еще раз!')
