@@ -1,23 +1,21 @@
 import os
 import time
-from sys import platform
 
 file_name = 'pb.txt'
 
-def clear_screen():
-    os.system("cls")    # для Windows
+def clear_screen():      
+    os.system("cls")    # для Windows  очистка экрана
 
-
-def search_data():
+def search_data():       # ввод нужного значения для поиска
     clear_screen()
     while True:
-        answer = input("Введите данные контакта для поиска (фамилия, номер телефона и тд(Еnter - выход) >:")
+        answer = input("Введите параметр для поиска (фамилия/имя/отчество/номер телефона) (Еnter - выход) >:")
         if answer == "":
             return
         result = search_in_file(answer)
         for printdata in result:
             output_data_string(printdata)
-        print("всего найдено записей: {} \n".format(len(result)))
+        print("Всего найдено записей: {} \n".format(len(result)))
 
 
 def search_in_file(request):
@@ -36,9 +34,10 @@ def output_data_string(printdata):
 
 
 def save_data_to_file(data_to_save):
-    data_to_save = ",".join(data_to_save) + "\n"
+    # data_to_save = ",".join(data_to_save) + "\n"
     print(data_to_save)
     with open(file_name, "a", encoding="utf8") as datafile:
+        datafile.write("\n")
         datafile.write(data_to_save)
 
 
@@ -47,7 +46,7 @@ def print_data():
     with open(file_name, "r", encoding="utf8") as datafile:
         for line in datafile:
             count += 1
-            print(":{:<3} ".format(count), end='')
+            print(":{:<3} ".format(count), end=' ')
             output_data_string(line.strip('\n'))
     return count
 
@@ -55,13 +54,13 @@ def print_data():
 def print_all_data():
     clear_screen()
     count = print_data()
-    input(">:Всего {} Записей.  Enter для выхода".format(count))
+    input("Всего {} Записей. Enter для выхода".format(count))
 
 
 def add_data():
     clear_screen()
     while True:
-        print('Добавление записи(""-выход)>:')
+        print('Добавление записи (Enter - выход) >:')
         last_name = input("Фамилия: ")
         if last_name == "":
             return
@@ -77,8 +76,8 @@ def add_data():
 def del_data():
     while True:
         clear_screen()
-        print("1 - удаление по номеру записи\n"
-              "2 - удаление по поиску\n"
+        print("1 - удаление по порядковому номеру записи\n"
+              "2 - удаление по параметру(значению)\n"
               "3 - выход")
         answer = input(">:").upper()
         match answer:
@@ -93,10 +92,34 @@ def del_data():
                 time.sleep(1)
 
 
+def del_data_by_number():
+    while True:
+        clear_screen()
+        print_data()
+        answer = input("Введите номер записи для удаления(Q - выход)>: ")
+        if answer.upper() == "Q":
+            return
+        if not answer.isnumeric():
+            continue
+        answer = int(answer)
+        print(answer)
+        phonedata = ""
+        count = 0
+        with open(file_name, "r", encoding="utf8") as datafile:
+            for line in datafile:
+                count += 1
+                if answer == count:
+                    continue
+                phonedata += line
+
+        with open(file_name, "w", encoding="utf8") as datafile:
+            datafile.write(phonedata)
+
+
 def del_data_by_search():
     clear_screen()
     while True:
-        answer = input("Строка поиска для удаления(''-выход)>:")
+        answer = input("Введите параметр для удаления(''-выход):")
         if answer == "":
             return
         found_records = search_in_file(answer)
@@ -118,30 +141,6 @@ def del_data_by_search():
                     datafile.write(phonedata)
 
 
-def del_data_by_number():
-    '''удаление по порядковому номеру записи'''
-    while True:
-        clear_screen()
-        print_data()
-        answer = input("Номер записи для удаления(Q - выход)>: ")
-        if answer.upper() == "Q":
-            return
-        if not answer.isnumeric():
-            continue
-        answer = int(answer)
-        print(answer)
-        phonedata = ""
-        count = 0
-        with open(file_name, "r", encoding="utf8") as datafile:
-            for line in datafile:
-                count += 1
-                if answer == count:
-                    continue
-                phonedata += line
-
-        with open(file_name, "w", encoding="utf8") as datafile:
-            datafile.write(phonedata)
-
 
 if __name__ == "__main__":
     # основной блок
@@ -156,7 +155,7 @@ if __name__ == "__main__":
     while True:
         clear_screen()
         print(menu)
-        answer = input(">:").upper()
+        answer = input("->: ").upper()
         match answer:
             case "1":
                 # вывод данных
@@ -176,6 +175,7 @@ if __name__ == "__main__":
 
             case "5":
                 # выход
+                print("Спасибо, что воспользовались справочником!")
                 exit(0)
 
             case _:
