@@ -1,0 +1,5 @@
+marshrut1, 5, bus1, driver1
+marshrut2, 10, bus2, driver2
+marshrut3, 7, bus2, driver1
+marshrut4, 2, bus5, driver3
+marshrut4, 2, bus5, driver3
