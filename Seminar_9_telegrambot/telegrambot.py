@@ -45,7 +45,7 @@ async def message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 #     await update.message.reply_text(int(mess[1]))
 #     await update.message.reply_text(play.player(int(mess[1])))
 
-app = ApplicationBuilder().token("6168900290:AAHoak4QChL9ZwkuKtX7nMsU_Qdp29YSrQY").build()
+app = ApplicationBuilder().token("TOKEN").build()
 
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CommandHandler("hello", hello))
